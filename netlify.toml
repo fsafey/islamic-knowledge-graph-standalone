@@ -1,0 +1,30 @@
+[build]
+  # No build process needed - single HTML file
+  publish = "."
+  
+[build.environment]
+  NODE_VERSION = "18"
+
+[[headers]]
+  # Apply to all files
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+
+[[headers]]
+  # HTML files
+  for = "*.html"
+  [headers.values]
+    Content-Type = "text/html; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+# CSP for enhanced security
+[[headers]]
+  for = "/"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self';"
